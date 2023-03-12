@@ -11,9 +11,9 @@ public class CoffeeService {
         this.coffeeRepository = coffeeRepository;
     }
 
-    public CoffeeDTO createCoffee(CoffeeDTO coffeeDTO){
+    public void createCoffee(CoffeeDTO coffeeDTO){
 
-        coffeeRepository.save(coffeeDTO);
+
 
 
     }

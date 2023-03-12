@@ -18,7 +18,12 @@ repositories {
 	mavenCentral()
 }
 
+tasks.compileJava {
+	options.compilerArgs << "-Xlint:deprecation"
+}
+
 dependencies {
+	implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
