@@ -1,41 +1,82 @@
 package com.codestates.PracticeMySelf.kakao;
 
-import okhttp3.MediaType;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.MediaType;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KakaoMessage {
 
     private static final String API_URL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
-    private static final String ACCESS_TOKEN = "pEfyEo4DAxJ-24fnKK1lPJ-tgEYAqFXIlzfLB839Cj10mAAAAYbUz530";
+    private static final String ACCESS_TOKEN = "aBUqdMuxzFTp1QL4FsOqZBlaD46OXWAiMWzqMymwCj11GgAAAYbXslsK";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
 
-        MediaType JSON
-                = MediaType.get("application/json; charset=utf-8");
+        RestTemplate restTemplate = new RestTemplate();
 
-        OkHttpClient client = new OkHttpClient();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "b0e42d0f7a61375eb692d70322f70c32");
+        headers.setBearerAuth(ACCESS_TOKEN);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody requestBody = RequestBody.create("ㅇㅇ", JSON);
+        String message = "Hello, World!"; // 보낼 메시지
 
-        Request request = new Request.Builder()
-                .url(API_URL)
-                .post(requestBody)
-                .addHeader("Authorization", "Bearer " + ACCESS_TOKEN)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .build();
+//        Map<String, Object> body = new HashMap<>();
+//        body.put("template_object", "{\"text\": \"" + message + "\"}");
 
-        try {
-            Response response = client.newCall(request).execute();
-            System.out.println(response.body().string());
-            response.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Map<String, Object> templateObject = new HashMap<>();
+        templateObject.put("text", message);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("template_object", templateObject);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(body);
+
+        HttpEntity<String> request = new HttpEntity<>(json, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(API_URL, request, String.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println("카카오톡 메시지 전송 성공!");
+        } else {
+            System.out.println("카카오톡 메시지 전송 실패...");
         }
+
+//
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+//        RequestBody requestBody = RequestBody.create("ㅇㅇ", JSON);
+//
+//        Request request = new Request.Builder()
+//                .url(API_URL)
+//                .post(requestBody)
+//                .addHeader("Authorization", "Bearer " + ACCESS_TOKEN)
+//                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+//                .build();
+//
+//        try {
+//            Response response = client.newCall(request).execute();
+//            System.out.println(response.body().string());
+//            response.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
 
