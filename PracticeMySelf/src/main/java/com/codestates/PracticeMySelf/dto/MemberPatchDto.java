@@ -1,5 +1,6 @@
 package com.codestates.PracticeMySelf.dto;
 
+import com.codestates.PracticeMySelf.annotation.NotSpace;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import javax.validation.constraints.Pattern;
 public class MemberPatchDto {
     private long memberId;
 
-    @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "회원 이름은 공백이 아니어야 합니다.!")
+    @NotSpace( message = "회원 이름은 공백이 아니어야 합니다.!")
     private String name;
 
     @Pattern(regexp = "^010-\\d{3,4}-\\d{4}$",
