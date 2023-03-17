@@ -1,4 +1,5 @@
-package com.codestates.PracticeMySelf.model;
+package com.codestates.PracticeMySelf.mapper;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,15 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Coffee {
+public class Member {
+    private long memberId;
+    private String email;
     private String name;
-    private int price;
-    private Size size;
-
-
-    public enum Size {
-        SMALL, NOMALL, BIG
-    }
+    private String phone;
 }
-
-

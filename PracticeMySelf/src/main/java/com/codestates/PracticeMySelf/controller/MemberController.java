@@ -4,7 +4,7 @@ import com.codestates.PracticeMySelf.dto.MemberPatchDto;
 import com.codestates.PracticeMySelf.dto.MemberPostDto;
 import com.codestates.PracticeMySelf.dto.MemberResponseDto;
 import com.codestates.PracticeMySelf.mapper.MemberMapper;
-import com.codestates.PracticeMySelf.model.Member;
+import com.codestates.PracticeMySelf.mapper.Member;
 import com.codestates.PracticeMySelf.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

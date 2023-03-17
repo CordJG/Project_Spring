@@ -1,6 +1,6 @@
 package com.codestates.PracticeMySelf.service;
 
-import com.codestates.PracticeMySelf.model.Member;
+import com.codestates.PracticeMySelf.mapper.Member;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +26,8 @@ public class MemberService {
     public List<Member> findMembers() {
 
         List<Member> members = List.of(
-                new Member(1, "wjrmffldglem@gmail.com", "이재관", "010-5029-7716"),
-                new Member(2, "wjrmffldgl@naver.com", "이재관2", "010-1234-5678")
+                new Member(1l, "wjrmffldglem@gmail.com", "이재관", "010-5029-7716"),
+                new Member(2l, "wjrmffldgl@naver.com", "이재관2", "010-1234-5678")
         );
         return members;
     }
