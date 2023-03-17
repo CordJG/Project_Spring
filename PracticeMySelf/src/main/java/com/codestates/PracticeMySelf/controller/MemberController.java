@@ -2,6 +2,8 @@ package com.codestates.PracticeMySelf.controller;
 
 import com.codestates.PracticeMySelf.dto.MemberPatchDto;
 import com.codestates.PracticeMySelf.dto.MemberPostDto;
+import com.codestates.PracticeMySelf.dto.MemberResponseDto;
+import com.codestates.PracticeMySelf.mapper.MemberMapper;
 import com.codestates.PracticeMySelf.model.Member;
 import com.codestates.PracticeMySelf.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -9,31 +11,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/members")
 @Validated
 public class MemberController {
     private final MemberService memberService;
+    private final MemberMapper mapper;
 
-    public MemberController(MemberService memberService) {   //생성자가 하나일 겨웅에는 @Autowired 애너테이션을 붙이지 않아도 Spring이 알아서 DI를 적용한다
+    public MemberController(MemberService memberService, MemberMapper mapper) {   //생성자가 하나일 겨웅에는 @Autowired 애너테이션을 붙이지 않아도 Spring이 알아서 DI를 적용한다
         this.memberService = memberService;
+        this.mapper = mapper;
     }
 
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto memberPostDto){
 
-        Member member = new Member();
-        member.setEmail(memberPostDto.getEmail());
-        member.setName(memberPostDto.getName());
-        member.setPhone(memberPostDto.getPhone());
-
+        Member member = mapper.memberPostDtoToMember(memberPostDto);
 
         Member response = memberService.createMember(member);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{member-id}")
@@ -41,14 +44,11 @@ public class MemberController {
                                       @Valid @RequestBody MemberPatchDto memberPatchDto) {
         memberPatchDto.setMemberId(memberId);
 
-        Member member = new Member();
-        member.setMemberId(memberPatchDto.getMemberId());
-        member.setName(memberPatchDto.getName());
-        member.setPhone(memberPatchDto.getPhone());
+        Member response =
+                memberService.updateMember(mapper.memberPatchDtoToMember(memberPatchDto));
 
-        Member response = memberService.updateMember(member);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response), HttpStatus.OK);
     }
 
     @GetMapping("/{member-id}")
@@ -57,12 +57,17 @@ public class MemberController {
         Member response = memberService.findMember(memberId);
 
 
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response),HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getMembers() {
-        List<Member> response = memberService.findMembers();
+        List<Member> members = memberService.findMembers();
+
+        List<MemberResponseDto> response =
+                members.stream()
+                        .map(member -> mapper.memberToMemberResponseDto(member))
+                        .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
