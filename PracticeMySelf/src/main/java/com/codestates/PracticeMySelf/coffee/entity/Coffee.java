@@ -1,4 +1,4 @@
-package com.codestates.PracticeMySelf.mapper;
+package com.codestates.PracticeMySelf.coffee.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.codestates.PracticeMySelf.dto;
+package com.codestates.PracticeMySelf.member.dto;
 
 import com.codestates.PracticeMySelf.annotation.NotSpace;
 import lombok.Getter;

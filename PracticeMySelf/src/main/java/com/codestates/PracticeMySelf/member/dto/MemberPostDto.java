@@ -1,4 +1,4 @@
-package com.codestates.PracticeMySelf.dto;
+package com.codestates.PracticeMySelf.member.dto;
 
 
 import lombok.Getter;

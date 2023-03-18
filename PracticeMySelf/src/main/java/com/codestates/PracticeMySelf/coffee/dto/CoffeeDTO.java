@@ -1,4 +1,4 @@
-package com.codestates.PracticeMySelf.dto;
+package com.codestates.PracticeMySelf.coffee.dto;
 
 import org.springframework.http.ResponseEntity;
 

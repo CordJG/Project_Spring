@@ -1,14 +1,16 @@
-package com.codestates.PracticeMySelf.controller;
+package com.codestates.PracticeMySelf.member.controller;
 
-import com.codestates.PracticeMySelf.dto.MemberPatchDto;
-import com.codestates.PracticeMySelf.dto.MemberPostDto;
-import com.codestates.PracticeMySelf.dto.MemberResponseDto;
-import com.codestates.PracticeMySelf.mapper.MemberMapper;
-import com.codestates.PracticeMySelf.mapper.Member;
-import com.codestates.PracticeMySelf.service.MemberService;
+import com.codestates.PracticeMySelf.member.dto.MemberPatchDto;
+import com.codestates.PracticeMySelf.member.dto.MemberPostDto;
+import com.codestates.PracticeMySelf.member.dto.MemberResponseDto;
+import com.codestates.PracticeMySelf.member.mapper.MemberMapper;
+import com.codestates.PracticeMySelf.member.entity.Member;
+import com.codestates.PracticeMySelf.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -79,7 +81,14 @@ public class MemberController {
 
         memberService.deleteMember(memberId);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    @ExceptionHandler
+//    public ResponseEntity handleException(MethodArgumentNotValidException e) {
+//        final List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+//
+//        return new ResponseEntity<>(fieldErrors, HttpStatus.BAD_REQUEST);
+//    }
 
 }

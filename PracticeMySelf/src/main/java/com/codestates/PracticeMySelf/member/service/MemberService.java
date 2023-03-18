@@ -1,6 +1,6 @@
-package com.codestates.PracticeMySelf.service;
+package com.codestates.PracticeMySelf.member.service;
 
-import com.codestates.PracticeMySelf.mapper.Member;
+import com.codestates.PracticeMySelf.member.entity.Member;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

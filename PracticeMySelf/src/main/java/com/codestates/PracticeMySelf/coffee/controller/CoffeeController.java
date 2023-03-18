@@ -1,6 +1,6 @@
-package com.codestates.PracticeMySelf.controller;
+package com.codestates.PracticeMySelf.coffee.controller;
 
-import com.codestates.PracticeMySelf.dto.CoffeeDTO;
+import com.codestates.PracticeMySelf.coffee.dto.CoffeeDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

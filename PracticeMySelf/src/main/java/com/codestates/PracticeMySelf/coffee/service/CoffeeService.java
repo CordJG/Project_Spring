@@ -1,6 +1,6 @@
-package com.codestates.PracticeMySelf.service;
+package com.codestates.PracticeMySelf.coffee.service;
 
-import com.codestates.PracticeMySelf.dto.CoffeeDTO;
+import com.codestates.PracticeMySelf.coffee.dto.CoffeeDTO;
 import com.codestates.PracticeMySelf.repository.CoffeeRepository;
 
 public class CoffeeService {

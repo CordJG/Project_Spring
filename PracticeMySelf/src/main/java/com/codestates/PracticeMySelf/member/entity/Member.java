@@ -1,4 +1,4 @@
-package com.codestates.PracticeMySelf.mapper;
+package com.codestates.PracticeMySelf.member.entity;
 
 
 import lombok.AllArgsConstructor;
