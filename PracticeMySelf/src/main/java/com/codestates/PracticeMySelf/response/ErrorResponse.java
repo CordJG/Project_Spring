@@ -1,6 +1,7 @@
 package com.codestates.PracticeMySelf.response;
 
 import lombok.Getter;
+import org.mapstruct.Mapper;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -11,8 +12,15 @@ import java.util.stream.Collectors;
 
 @Getter
 public class ErrorResponse {
+    private int status;
+    private String message;
     private List<FieldError> fieldErrors;
     private List<ConstraintViolationError> violationErrors;
+
+    public ErrorResponse(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 
     public ErrorResponse(List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors) {
         this.fieldErrors = fieldErrors;

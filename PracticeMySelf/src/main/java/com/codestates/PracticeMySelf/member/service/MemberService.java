@@ -1,5 +1,7 @@
 package com.codestates.PracticeMySelf.member.service;
 
+import com.codestates.PracticeMySelf.exception.BusinessLogicException;
+import com.codestates.PracticeMySelf.exception.ExceptionCode;
 import com.codestates.PracticeMySelf.member.entity.Member;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,8 @@ public class MemberService {
     }
 
     public Member findMember(long memberId) {
-        Member member = new Member(memberId, "wjrmffldglem@gmail.com", "이재관", "010-5029-7716");
-        return member;
+
+        throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
     }
 
     public List<Member> findMembers() {
@@ -33,6 +35,8 @@ public class MemberService {
     }
 
     public void deleteMember(long memberId) {
+
+        throw new BusinessLogicException(ExceptionCode.INTERNAL_SERVER_ERROR);
 
     }
 }

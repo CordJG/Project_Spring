@@ -23,14 +23,15 @@ tasks.compileJava {
 }
 
 dependencies {
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework:spring-web:5.3.13'
 	implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
