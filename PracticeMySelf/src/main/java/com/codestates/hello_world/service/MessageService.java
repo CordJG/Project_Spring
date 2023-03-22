@@ -15,10 +15,6 @@ public class MessageService {
 
     public Message createMessage(Message message) {
 
-        Message createdMessage = message;
-
-        repository.save(message);
-
-        return createdMessage;
+        return repository.save(message);
     }
 }

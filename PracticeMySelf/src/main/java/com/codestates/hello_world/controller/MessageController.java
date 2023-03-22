@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/v2/messages")
+@RequestMapping("/v1/messages")
 public class MessageController {
     private final MessageService messageService;
     private final MessageMapper mapper;
@@ -26,12 +26,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity post(@RequestBody MessagePostDto messagePostDto){
+    public ResponseEntity post(@Valid @RequestBody MessagePostDto messagePostDto){
 
         Message message = mapper.postToMessage(messagePostDto);
 
         Message response = messageService.createMessage(message);
 
-        return new ResponseEntity<>(mapper.messageToMessageResponseDto(response), HttpStatus.CREATED);
+        return ResponseEntity.ok(mapper.messageToMessageResponseDto(message));
     }
 }
