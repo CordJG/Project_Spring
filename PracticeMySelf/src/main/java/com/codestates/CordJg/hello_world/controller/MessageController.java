@@ -31,6 +31,6 @@ public class MessageController {
 
         Message response = messageService.createMessage(message);
 
-        return ResponseEntity.ok(mapper.messageToMessageResponseDto(response));
+        return new ResponseEntity<>(mapper.messageToMessageResponseDto(response),HttpStatus.CREATED);
     }
 }
