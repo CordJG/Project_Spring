@@ -2,5 +2,8 @@ package com.codestates.CordJg.cafe.repository;
 
 
 
-public class CoffeeRepository {
+import com.codestates.CordJg.cafe.coffee.entity.Coffee;
+import org.springframework.data.repository.CrudRepository;
+
+public interface CoffeeRepository extends CrudRepository<Coffee, Long> {
 }
