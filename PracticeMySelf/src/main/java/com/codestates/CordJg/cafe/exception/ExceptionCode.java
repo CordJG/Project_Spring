@@ -7,7 +7,10 @@ public enum ExceptionCode {
     METHOD_NOT_ALLOWED(405,"Method Not Allowed"),
     INTERNAL_SERVER_ERROR(500,"Internal Server Error"),
 
-    MEMBER_EXISTS(777,"Member Existed");
+    MEMBER_EXISTS(777,"Member Existed"),
+
+    COFFEE_NOT_FOUND(666, "Coffee Not Found"),
+    COFFEE_EXISTS(606,"Coffee Existed");
 
     @Getter
     private int status;

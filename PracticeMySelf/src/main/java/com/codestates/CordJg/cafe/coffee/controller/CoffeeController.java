@@ -1,6 +1,7 @@
 package com.codestates.CordJg.cafe.coffee.controller;
 
 import com.codestates.CordJg.cafe.coffee.dto.CoffeeDTO;
+import com.codestates.CordJg.cafe.coffee.dto.CoffeePathchDto;
 import com.codestates.CordJg.cafe.coffee.dto.CoffeePostDto;
 import com.codestates.CordJg.cafe.coffee.dto.CoffeeResponseDto;
 import com.codestates.CordJg.cafe.coffee.entity.Coffee;
@@ -10,6 +11,9 @@ import com.codestates.CordJg.cafe.repository.CoffeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/v1/coffees")
@@ -27,7 +31,7 @@ public class CoffeeController {
     }
 
     @PostMapping
-    public ResponseEntity postCoffee(@RequestBody CoffeePostDto coffeePostDto){
+    public ResponseEntity postCoffee(@Valid @RequestBody CoffeePostDto coffeePostDto){
 
         Coffee coffee = service.createCoffee(mapper.postToCoffee(coffeePostDto));
 
@@ -35,12 +39,19 @@ public class CoffeeController {
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-    @PatchMapping
-    public ResponseEntity patchCoffee(CoffeeDTO coffeeDTO){
+    @PatchMapping("/{coffee-id}")
+    public ResponseEntity patchCoffee(@PathVariable("coffee-id") @Min(1) long coffeeId,
+                                      @Valid @RequestBody CoffeePathchDto coffeePathchDto){
 
-        return new ResponseEntity<>(coffeeDTO, HttpStatus.CREATED);
+        coffeePathchDto.setCoffeeId(coffeeId);
+
+        Coffee coffee = service.updateCoffee(mapper.patchToCoffee(coffeePathchDto));
+
+        CoffeeResponseDto response = mapper.coffeeToResponse(coffee);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @GetMapping("/coffee-id/")
+    @GetMapping("/coffee-id")
     public ResponseEntity getCoffee(CoffeeDTO coffeeDTO){
 
         return new ResponseEntity<>(coffeeDTO, HttpStatus.CREATED);

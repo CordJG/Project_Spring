@@ -1,12 +1,12 @@
 package com.codestates.CordJg.cafe.coffee.dto;
 
 import com.codestates.CordJg.cafe.coffee.entity.Coffee;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
-
+@AllArgsConstructor
 public class CoffeeResponseDto {
 
     private long coffeeId;
