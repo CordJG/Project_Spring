@@ -78,9 +78,9 @@ public class MemberController {
 
         System.out.println("# delete member");
 
-        memberService.deleteMember(memberId);
+        MemberResponseDto responseDto= mapper.memberToMemberResponseDto(memberService.deleteMember(memberId));
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 
 //    @ExceptionHandler

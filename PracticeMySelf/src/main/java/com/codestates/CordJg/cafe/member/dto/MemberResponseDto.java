@@ -1,5 +1,6 @@
 package com.codestates.CordJg.cafe.member.dto;
 
+import com.codestates.CordJg.cafe.member.status.MemberStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,5 +12,6 @@ public class MemberResponseDto {
     private String email;
     private String name;
     private String phone;
+    private MemberStatus status;
 
 }
