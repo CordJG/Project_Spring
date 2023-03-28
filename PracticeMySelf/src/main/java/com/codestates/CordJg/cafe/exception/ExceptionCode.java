@@ -10,7 +10,10 @@ public enum ExceptionCode {
     MEMBER_EXISTS(777,"Member Existed"),
 
     COFFEE_NOT_FOUND(666, "Coffee Not Found"),
-    COFFEE_EXISTS(606,"Coffee Existed");
+    COFFEE_EXISTS(606,"Coffee Existed"),
+    CANNOT_CHANGE_ORDER(246,"Order Is Ongoing"),
+    ORDER_NOT_FOUND(444, "Order Not Found"),
+    NOT_IMPLEMENTATION(501, "Not Implementation");
 
     @Getter
     private int status;

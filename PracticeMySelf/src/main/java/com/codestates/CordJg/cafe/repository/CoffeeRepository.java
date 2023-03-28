@@ -12,6 +12,4 @@ public interface CoffeeRepository extends CrudRepository<Coffee, Long> {
 
     Optional<Coffee> findByName(String name);
 
-    @Query("SELECT * FROM COFFEE WHERE COFFEE_ID = :coffeeId")
-    Optional<Coffee> findByCoffee(Long coffeeId);
 }

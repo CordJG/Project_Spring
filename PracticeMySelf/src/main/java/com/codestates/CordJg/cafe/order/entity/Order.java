@@ -20,7 +20,7 @@ public class Order {
     @Id
     private long orderId;
 
-    private AggregateReference<Member, Long> memberId;
+    private AggregateReference<Member, Long> memberId;  //외래 참조키? 연결되는, 매핑되는 핵심코드
 
     @MappedCollection(idColumn = "ORDER_ID", keyColumn = "ORDER_COFFEE_ID")
     private Set<CoffeeRef> orderCoffees = new LinkedHashSet<>();

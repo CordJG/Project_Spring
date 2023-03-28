@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class CoffeeService {
 
-    private final CoffeeRepository coffeeRepository;
+    private  CoffeeRepository coffeeRepository;
 
     public CoffeeService(CoffeeRepository coffeeRepository) {
         this.coffeeRepository = coffeeRepository;
@@ -45,7 +45,7 @@ public class CoffeeService {
     }
 
     public Coffee findCoffee(long coffeeId) {
-        return findVerifiedCoffeeByQuery(coffeeId);
+        return findVerifiedCoffee(coffeeId);
     }
 
     public List<Coffee> findOrderedCoffees(Order order) {
@@ -77,15 +77,6 @@ public class CoffeeService {
         Optional<Coffee> coffee = coffeeRepository.findByName(coffeeName);
         if(coffee.isPresent())
             throw new BusinessLogicException(ExceptionCode.COFFEE_EXISTS);
-    }
-
-    private Coffee findVerifiedCoffeeByQuery(long coffeeId) {
-        Optional<Coffee> optionalCoffee = coffeeRepository.findByCoffee(coffeeId);
-        Coffee findCoffee =
-                optionalCoffee.orElseThrow(() ->
-                        new BusinessLogicException(ExceptionCode.COFFEE_NOT_FOUND));
-
-        return findCoffee;
     }
 
 
