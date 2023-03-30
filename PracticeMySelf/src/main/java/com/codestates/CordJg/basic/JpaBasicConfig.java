@@ -23,7 +23,7 @@ public class JpaBasicConfig {
     }
 
     private void example01() {
-        Member member = new Member("wjrmffldglem@gmail.com");
+        Member member = new Member("wjrmffldgl@naver.com");
 
         em.persist(member);
 
