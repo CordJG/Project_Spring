@@ -2,38 +2,44 @@ package com.codestates.CordJg.cafe.order.entity;
 
 import com.codestates.CordJg.cafe.member.entity.Member;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.jdbc.core.mapping.AggregateReference;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Setter
-@Table("ORDERS")
+@NoArgsConstructor
+@Entity(name = "ORDERS")
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
 
-    private AggregateReference<Member, Long> memberId;  //외래 참조키? 연결되는, 매핑되는 핵심코드
-
-    @MappedCollection(idColumn = "ORDER_ID", keyColumn = "ORDER_COFFEE_ID")
-    private Set<CoffeeRef> orderCoffees = new LinkedHashSet<>();
-
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus = OrderStatus.ORDER_REQUEST;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false, name = "LAST_MODIFIED_AT")
+    private LocalDateTime modifiedAt = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    public void addMember(Member member) {
+        this.member = member;
+    }
 
     public enum OrderStatus {
         ORDER_REQUEST(1, "주문 요청"),
         ORDER_CONFIRM(2, "주문 확정"),
         ORDER_COMPLETE(3, "주문 완료"),
-        ORDER_CANCEL(4, "주문 취소");
+        ORDER_CANCEL(4, "주문 취소"),
+        ;
 
         @Getter
         private int stepNumber;
