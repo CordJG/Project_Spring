@@ -5,8 +5,12 @@ import com.codestates.CordJg.cafe.exception.ExceptionCode;
 import com.codestates.CordJg.cafe.member.entity.Member;
 import com.codestates.CordJg.cafe.member.status.MemberStatus;
 import com.codestates.CordJg.cafe.repository.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +26,7 @@ public class MemberService {
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
 
-        member.setStatus(MemberStatus.활동중);
+        member.setStatus(Member.MemberStatus.활동중);
 
         return memberRepository.save(member);
     }
@@ -34,6 +38,10 @@ public class MemberService {
                 .ifPresent(name -> findMember.setName(name));
         Optional.ofNullable(member.getPhone())
                 .ifPresent(phone -> findMember.setPhone(phone));
+        Optional.ofNullable(member.getStatus())
+                .ifPresent(memberStatus -> findMember.setStatus(memberStatus));
+
+        findMember.setModifiedAt(LocalDateTime.now());
 
 
         return memberRepository.save(findMember);
@@ -44,9 +52,9 @@ public class MemberService {
         return findVerifiedMember(memberId);
     }
 
-    public List<Member> findMembers() {
+    public Page<Member> findMembers(int page, int size) {
 
-        return (List<Member>) memberRepository.findAll();
+        return memberRepository.findAll(PageRequest.of(page, size, Sort.by("memberId").descending()));
     }
 
     public Member deleteMember(long memberId) {
@@ -55,7 +63,7 @@ public class MemberService {
 
         if(findMember.getStatus().getStatusNum()!=3 ){
 
-            findMember.setStatus(MemberStatus.탈퇴);
+            findMember.setStatus(Member.MemberStatus.탈퇴);
         }
 
         return memberRepository.save(findMember);
