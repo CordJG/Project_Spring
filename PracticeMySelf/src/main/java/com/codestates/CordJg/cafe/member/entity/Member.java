@@ -1,7 +1,7 @@
 package com.codestates.CordJg.cafe.member.entity;
 
 
-import com.codestates.CordJg.cafe.member.status.MemberStatus;
+
 import com.codestates.CordJg.cafe.order.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,12 +63,10 @@ public class Member {
         활동중(1), 휴면(2), 탈퇴(3);
 
         @Getter
-        private int statusNum;
+        private long statusNum;
 
-        MemberStatus(int statusNum) {
+        MemberStatus(long statusNum) {
             this.statusNum = statusNum;
-
         }
-
     }
 }

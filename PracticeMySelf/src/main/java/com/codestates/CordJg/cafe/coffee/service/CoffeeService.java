@@ -28,11 +28,10 @@ public class CoffeeService {
 
     public Coffee createCoffee(Coffee coffee){
 
-        String coffeeName = coffee.getName().toUpperCase();
+        String coffeeName = coffee.getName();
 
         verifyExistCoffee(coffeeName);
         coffee.setName(coffeeName);
-
 
         return coffeeRepository.save(coffee);
     }

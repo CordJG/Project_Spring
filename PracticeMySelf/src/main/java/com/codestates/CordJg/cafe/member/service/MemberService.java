@@ -3,7 +3,6 @@ package com.codestates.CordJg.cafe.member.service;
 import com.codestates.CordJg.cafe.exception.BusinessLogicException;
 import com.codestates.CordJg.cafe.exception.ExceptionCode;
 import com.codestates.CordJg.cafe.member.entity.Member;
-import com.codestates.CordJg.cafe.member.status.MemberStatus;
 import com.codestates.CordJg.cafe.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
