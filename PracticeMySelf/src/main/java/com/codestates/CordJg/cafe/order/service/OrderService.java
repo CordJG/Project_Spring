@@ -6,8 +6,12 @@ import com.codestates.CordJg.cafe.exception.ExceptionCode;
 import com.codestates.CordJg.cafe.member.service.MemberService;
 import com.codestates.CordJg.cafe.order.entity.Order;
 import com.codestates.CordJg.cafe.repository.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,24 +28,29 @@ public class OrderService {
     }
 
     public Order createOrder(Order order) {
-        memberService.findVerifiedMember(order.getMemberId().getId());
+        memberService.findVerifiedMember(order.getMember().getMemberId());
 
-        order.getOrderCoffees()
-                .stream()
-                .forEach(coffeeRef -> {
-                    coffeeService.findVerifiedCoffee(coffeeRef.getCoffeeId());
-                });
+
         return orderRepository.save(order);
+    }
+
+    public Order updateOrder(Order order) {
+        Order findOrder = findVerifiedOrder(order.getOrderId());
+
+        Optional.ofNullable(order.getOrderStatus())
+                .ifPresent(orderStatus -> findOrder.setOrderStatus(orderStatus));
+        findOrder.setModifiedAt(LocalDateTime.now());
+        return orderRepository.save(findOrder);
     }
 
     public Order findOrder(long orderId) {
         return findVerifiedOrder(orderId);
 
-
     }
 
-    public List<Order> findOrders() {
-        return (List<Order>) orderRepository.findAll();
+    public Page<Order> findOrders(int page, int size) {
+        return orderRepository.findAll(PageRequest.of(page, size,
+                Sort.by("orderId").descending()));
     }
 
     public void cancelOrder(long orderId) {
@@ -53,6 +62,8 @@ public class OrderService {
         }
 
         findOrder.setOrderStatus(Order.OrderStatus.ORDER_CANCEL);
+        findOrder.setModifiedAt(LocalDateTime.now());
+
         orderRepository.save(findOrder);
     }
 
