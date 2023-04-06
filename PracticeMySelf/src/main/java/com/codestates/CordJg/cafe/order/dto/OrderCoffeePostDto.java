@@ -7,7 +7,10 @@ import javax.validation.constraints.Positive;
 
 @Getter
 @AllArgsConstructor
-public class OrderCoffeeDto {
+public class OrderCoffeePostDto {
+
+    @Positive
+    private long orderId;
     @Positive
     private long coffeeId;
 

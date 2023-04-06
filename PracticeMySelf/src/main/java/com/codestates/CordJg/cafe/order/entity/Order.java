@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,8 +31,11 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public void addMember(Member member) {
-        this.member = member;
+    @OneToMany(mappedBy = "order")
+    private List<OrderCoffee> orderCoffees;
+
+    public void addOrderCoffee(OrderCoffee orderCoffee) {
+        orderCoffees.add(orderCoffee);
     }
 
     public enum OrderStatus {

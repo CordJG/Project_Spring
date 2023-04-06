@@ -7,6 +7,6 @@ import lombok.Getter;
 public class ToDoListPostDto {
 
     private String title;
-    private long todo_order;
+    private int todo_order;
     private boolean completed;
 }

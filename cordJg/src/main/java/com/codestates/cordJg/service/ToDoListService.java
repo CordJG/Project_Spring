@@ -21,7 +21,7 @@ public class ToDoListService {
     }
 
     public ToDoList createList(ToDoList toDoList) {
-        verifyExistList(toDoList.getListId());
+        verifyExistList(toDoList.getTitle());
 
         return toDoListRepository.save(toDoList);
     }
@@ -39,7 +39,7 @@ public class ToDoListService {
         return toDoListRepository.save(findList);
     }
 
-    public ToDoList findList(long listId) {
+    public ToDoList findList(int listId) {
 
         return findVerifiedList(listId);
     }
@@ -49,7 +49,7 @@ public class ToDoListService {
         return toDoListRepository.findAll(PageRequest.of(page, size, Sort.by("listId").descending()));
     }
 
-    public void deleteList(long listId) {
+    public void deleteList(int listId) {
 
         ToDoList findList = findVerifiedList(listId);
         toDoListRepository.delete(findList);
@@ -62,7 +62,7 @@ public class ToDoListService {
 
     }
 
-    public ToDoList findVerifiedList(long listId) {
+    public ToDoList findVerifiedList(int listId) {
         Optional<ToDoList> optionalToDoList =
                 toDoListRepository.findById(listId);
         ToDoList findList =
@@ -71,8 +71,8 @@ public class ToDoListService {
         return findList;
     }
 
-    private void verifyExistList(long listId) {
-        Optional<ToDoList> toDoList = toDoListRepository.findById(listId);
+    private void verifyExistList(String title) {
+        Optional<ToDoList> toDoList = toDoListRepository.findByTitle(title);
         if(toDoList.isPresent())
             throw new BusinessLogicException(ExceptionCode.LIST_EXIST);
     }

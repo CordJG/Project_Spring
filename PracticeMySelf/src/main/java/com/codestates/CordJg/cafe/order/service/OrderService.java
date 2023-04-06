@@ -30,6 +30,9 @@ public class OrderService {
     public Order createOrder(Order order) {
         memberService.findVerifiedMember(order.getMember().getMemberId());
 
+        Order result = orderRepository.save(order);
+
+
 
         return orderRepository.save(order);
     }

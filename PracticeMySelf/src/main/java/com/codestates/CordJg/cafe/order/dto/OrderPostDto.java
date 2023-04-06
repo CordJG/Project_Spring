@@ -16,5 +16,5 @@ public class OrderPostDto {
     private long memberId;
 
     @Valid
-    private List<OrderCoffeeDto> orderCoffees;
+    private List<OrderCoffeePostDto> orderCoffees;
 }

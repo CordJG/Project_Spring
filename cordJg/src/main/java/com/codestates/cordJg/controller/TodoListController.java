@@ -18,6 +18,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping
 @Validated
@@ -42,26 +43,30 @@ public class TodoListController {
     }
 
     @PatchMapping("/{list-id}")
-    public ResponseEntity patchList(@PathVariable("list-id") @Min(1) long listId,
+    public ResponseEntity patchList(@PathVariable("list-id") @Min(1) int listId,
                                     @Valid @RequestBody ToDoListPatchDto toDoListPatchDto) {
-        toDoListPatchDto.setListId(listId);
+
+        ToDoList toDoList = mapper.listPatchDtoToList(toDoListPatchDto);
+
+        toDoList.setListId(listId);
 
         ToDoList response =
-                service.updateList(mapper.listPatchDtoToList(toDoListPatchDto));
+                service.updateList(toDoList);
+
 
         return new ResponseEntity<>(mapper.listToListResponseDto(response), HttpStatus.OK);
     }
 
     @GetMapping("/{list-id}")
-    public ResponseEntity getList(@PathVariable("list-id") long listId) {
+    public ResponseEntity getList(@PathVariable("list-id") int listId) {
         ToDoList response = service.findList(listId);
 
         return new ResponseEntity<>(mapper.listToListResponseDto(response), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getLists(@Positive @RequestParam(defaultValue = "1") int page,
-                                   @Positive @RequestParam(defaultValue = "5") int size) {
+    public ResponseEntity getLists(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+                                   @Positive @RequestParam(value = "size", defaultValue = "5") int size) {
         Page<ToDoList> pageLists = service.findLists(page - 1, size);
         List<ToDoList> lists = pageLists.getContent();
 
@@ -69,7 +74,7 @@ public class TodoListController {
     }
 
     @DeleteMapping("/{list-id}")
-    public ResponseEntity deleteList(@PathVariable("list-id") @Positive long listId){
+    public ResponseEntity deleteList(@PathVariable("list-id") @Positive int listId){
         service.deleteList(listId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

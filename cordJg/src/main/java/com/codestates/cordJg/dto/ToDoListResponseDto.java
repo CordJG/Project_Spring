@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ToDoListResponseDto {
 
-    private long toDoListId;
+    private int listId;
     private String title;
-    private long todo_order;
+    private int todo_order;
     private boolean completed;
 }
