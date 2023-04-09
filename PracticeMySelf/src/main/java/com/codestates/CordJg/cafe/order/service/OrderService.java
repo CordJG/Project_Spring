@@ -28,13 +28,12 @@ public class OrderService {
     }
 
     public Order createOrder(Order order) {
-        memberService.findVerifiedMember(order.getMember().getMemberId());
-
-        Order result = orderRepository.save(order);
-
+        verifyOrder(order);
+        Order savedOrder = saveOrder(order);
 
 
-        return orderRepository.save(order);
+
+        return savedOrder;
     }
 
     public Order updateOrder(Order order) {
@@ -42,7 +41,6 @@ public class OrderService {
 
         Optional.ofNullable(order.getOrderStatus())
                 .ifPresent(orderStatus -> findOrder.setOrderStatus(orderStatus));
-        findOrder.setModifiedAt(LocalDateTime.now());
         return orderRepository.save(findOrder);
     }
 
@@ -65,7 +63,6 @@ public class OrderService {
         }
 
         findOrder.setOrderStatus(Order.OrderStatus.ORDER_CANCEL);
-        findOrder.setModifiedAt(LocalDateTime.now());
 
         orderRepository.save(findOrder);
     }
@@ -76,5 +73,17 @@ public class OrderService {
                 optionalOrder.orElseThrow(() ->
                         new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
         return findOrder;
+    }
+
+    private void verifyOrder(Order order) {
+
+        memberService.findVerifiedMember(order.getMember().getMemberId());
+
+        order.getOrderCoffees().stream()
+                .forEach(orderCoffee -> coffeeService.findVerifiedCoffee(orderCoffee.getCoffee().getCoffeeId()));
+    }
+
+    private Order saveOrder(Order order) {
+        return orderRepository.save(order);
     }
 }

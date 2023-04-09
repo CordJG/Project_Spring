@@ -70,7 +70,7 @@ public class OrderController {
 
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.orderToResponseDtos(orders), pageOrders), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.ordersToOrderResponseDtos(orders), pageOrders), HttpStatus.OK);
     }
 
     @DeleteMapping("/{order-id}")
