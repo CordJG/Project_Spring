@@ -6,11 +6,9 @@ import lombok.Getter;
 import javax.validation.constraints.Positive;
 
 @Getter
-@AllArgsConstructor
 public class OrderCoffeePostDto {
 
-    @Positive
-    private long orderId;
+
     @Positive
     private long coffeeId;
 

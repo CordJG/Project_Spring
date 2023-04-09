@@ -50,24 +50,27 @@ public class OrderController {
         orderPatchDto.setOrderId(orderId);
         Order order = orderService.updateOrder(mapper.orderPatchDtoToOrder(orderPatchDto));
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.orderToResponseDto(order)), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.orderToResponseDto(order)), HttpStatus.OK);
     }
 
     @GetMapping("/{order-id}")
     public ResponseEntity getOrder(@PathVariable("order-id") @Positive long orderId) {
         Order order = orderService.findOrder(orderId);
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.orderToResponseDto(order)), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.orderToResponseDto(order)), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getOrders(@Positive @RequestParam int page,
-                                    @Positive @RequestParam int size) {
+    public ResponseEntity getOrders(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+                                    @Positive @RequestParam(value = "size", defaultValue = "5") int size) {
         Page<Order> pageOrders = orderService.findOrders(page -1,size);
         List<Order> orders = pageOrders.getContent();
 
 
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.ordersToResponseDtos(orders), pageOrders), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.orderToResponseDtos(orders), pageOrders), HttpStatus.OK);
     }
 
     @DeleteMapping("/{order-id}")

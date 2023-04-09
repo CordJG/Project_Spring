@@ -16,17 +16,23 @@ public class OrderCoffee {
     private long orderCoffeeId;
 
     @Column(nullable = false)
-    private long coffeeId;
-
-    @Column(nullable = false)
     private int quantity;
 
 
     @ManyToOne
-    @JoinColumn(name = "ORDER_COFFEE_ID")
+    @JoinColumn(name = "ORDER_ID")
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "ORDER_COFFEE_ID")
+    @JoinColumn(name = "ORDER_ID")
     private Coffee coffee;
+
+    public void setOrder(Order order) {
+        this.order= order;
+        if (!this.order.getOrderCoffees().contains(this)) {
+            this.order.getOrderCoffees().add(this);
+        }
+    }
+
+
 }

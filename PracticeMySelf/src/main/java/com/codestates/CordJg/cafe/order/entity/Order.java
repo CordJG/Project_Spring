@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,21 +22,16 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus = OrderStatus.ORDER_REQUEST;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(nullable = false, name = "LAST_MODIFIED_AT")
-    private LocalDateTime modifiedAt = LocalDateTime.now();
-
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderCoffee> orderCoffees;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    private List<OrderCoffee> orderCoffees = new ArrayList<>();
 
     public void addOrderCoffee(OrderCoffee orderCoffee) {
-        orderCoffees.add(orderCoffee);
+        orderCoffee.setOrder(this);
+        this.getOrderCoffees().add(orderCoffee);
     }
 
     public enum OrderStatus {
