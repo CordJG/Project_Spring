@@ -1,5 +1,7 @@
 package com.codestates.CordJg.cafe.coffee.entity;
 
+import com.codestates.CordJg.cafe.order.entity.OrderCoffee;
+import com.codestates.CordJg.cafe.values.Money;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,8 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,18 +25,16 @@ public class Coffee {
     @Column(length = 100, nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
-    private int price;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "price", nullable = false))
+    private Money price;
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private CoffeeStatus coffeeStatus = CoffeeStatus.COFFEE_FOR_SALE;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(nullable = false, name = "LAST_MODIFIED_AT")
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    @OneToMany(mappedBy = "coffee")
+    private List<OrderCoffee> orderCoffees = new ArrayList<>();
 
     public enum CoffeeStatus {
         COFFEE_FOR_SALE("판매중"),

@@ -8,25 +8,32 @@ import com.codestates.CordJg.cafe.coffee.entity.Coffee;
 import com.codestates.CordJg.cafe.coffee.mapper.CoffeeMapper;
 import com.codestates.CordJg.cafe.coffee.service.CoffeeService;
 import com.codestates.CordJg.cafe.repository.CoffeeRepository;
+import com.codestates.CordJg.cafe.response.MultiResponseDto;
+import com.codestates.CordJg.cafe.response.SingleResponseDto;
+import com.codestates.CordJg.cafe.utils.UriCreator;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/coffees")
 public class CoffeeController {
 
     private final CoffeeMapper mapper;
-    private final CoffeeRepository repository;
 
     private final CoffeeService service;
 
-    public CoffeeController(CoffeeMapper mapper, CoffeeRepository repository, CoffeeService service) {
+    private final static String COFFEE_DEFAULT_URL = "/v1/coffees";
+
+    public CoffeeController(CoffeeMapper mapper, CoffeeService service) {
         this.mapper = mapper;
-        this.repository = repository;
         this.service = service;
     }
 
@@ -35,9 +42,10 @@ public class CoffeeController {
 
         Coffee coffee = service.createCoffee(mapper.postToCoffee(coffeePostDto));
 
-        CoffeeResponseDto response = mapper.coffeeToResponse(coffee);
+        URI location = UriCreator.createUri(COFFEE_DEFAULT_URL, coffee.getCoffeeId());
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        return ResponseEntity.created(location).build();
     }
     @PatchMapping("/{coffee-id}")
     public ResponseEntity patchCoffee(@PathVariable("coffee-id") @Min(1) long coffeeId,
@@ -49,18 +57,27 @@ public class CoffeeController {
 
         CoffeeResponseDto response = mapper.coffeeToResponse(coffee);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
-    @GetMapping("/coffee-id")
-    public ResponseEntity getCoffee(CoffeeDTO coffeeDTO){
+    @GetMapping("/{coffee-id}")
+    public ResponseEntity getCoffee(@PathVariable("coffee-id") long coffeeId){
 
-        return new ResponseEntity<>(coffeeDTO, HttpStatus.CREATED);
+        Coffee coffee = service.findCoffee(coffeeId);
+
+        CoffeeResponseDto response = mapper.coffeeToResponse(coffee);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
 
     }
     @GetMapping
-    public ResponseEntity getCoffees(CoffeeDTO coffeeDTO){
+    public ResponseEntity getCoffees(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+                                     @Positive @RequestParam(value = "page", defaultValue = "5") int size){
 
-        return new ResponseEntity<>(coffeeDTO, HttpStatus.CREATED);
+        Page<Coffee> pageCoffees = service.findCoffees(page -1, size);
+        List<Coffee> coffees = pageCoffees.getContent();
+        CoffeeResponseDto response = mapper.coffeesToResponse(coffees);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(response,pageCoffees), HttpStatus.CREATED);
 
     }
 
