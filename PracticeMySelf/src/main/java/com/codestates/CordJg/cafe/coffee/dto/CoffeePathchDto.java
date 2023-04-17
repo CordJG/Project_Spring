@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-
 public class CoffeePathchDto {
 
     private long coffeeId;

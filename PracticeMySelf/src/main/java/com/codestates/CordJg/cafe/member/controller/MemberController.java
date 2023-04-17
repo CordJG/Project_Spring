@@ -6,6 +6,8 @@ import com.codestates.CordJg.cafe.member.dto.MemberPatchDto;
 import com.codestates.CordJg.cafe.member.dto.MemberPostDto;
 import com.codestates.CordJg.cafe.member.mapper.MemberMapper;
 import com.codestates.CordJg.cafe.member.entity.Member;
+import com.codestates.CordJg.cafe.response.SingleResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,13 +61,15 @@ public class MemberController {
 
 
 
-        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response),HttpStatus.OK);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.memberToMemberResponseDto(response)),HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getMembers() {
-        List<Member> members = memberService.findMembers();
-
+    public ResponseEntity getMembers(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+                                     @Positive @RequestParam(value = "size", defaultValue = "10") int size) {
+        Page<Member> pageMembers = memberService.findMembers(page - 1, size);
+        List<Member> members = pageMembers.getContent();
         List<MemberResponseDto> response =
                 members.stream()
                         .map(member -> mapper.memberToMemberResponseDto(member))

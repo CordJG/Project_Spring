@@ -13,4 +13,9 @@ public class CoffeeResponseDto {
     private String name;
     private int price;
 
+    private Coffee.CoffeeStatus coffeeStatus;
+
+    public String getCoffeeStatus() {
+        return coffeeStatus.getStatus();}
+
 }

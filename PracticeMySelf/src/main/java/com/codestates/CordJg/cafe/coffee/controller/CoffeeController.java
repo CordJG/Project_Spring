@@ -75,7 +75,7 @@ public class CoffeeController {
 
         Page<Coffee> pageCoffees = service.findCoffees(page -1, size);
         List<Coffee> coffees = pageCoffees.getContent();
-        CoffeeResponseDto response = mapper.coffeesToResponse(coffees);
+        List<CoffeeResponseDto> response = mapper.coffeesToResponse(coffees);
 
         return new ResponseEntity<>(new MultiResponseDto<>(response,pageCoffees), HttpStatus.CREATED);
 

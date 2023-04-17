@@ -38,8 +38,7 @@ public class Coffee {
 
     public enum CoffeeStatus {
         COFFEE_FOR_SALE("판매중"),
-        COFFEE_SOLD_OUT("판매중지"),
-        ;
+        COFFEE_SOLD_OUT("판매중지");
 
         @Getter
         private String status;

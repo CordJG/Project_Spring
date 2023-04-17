@@ -1,21 +1,20 @@
 package com.codestates.CordJg.cafe.coffee.service;
 
 
-import com.codestates.CordJg.cafe.coffee.dto.CoffeePostDto;
+
 import com.codestates.CordJg.cafe.coffee.entity.Coffee;
 import com.codestates.CordJg.cafe.exception.BusinessLogicException;
 import com.codestates.CordJg.cafe.exception.ExceptionCode;
-import com.codestates.CordJg.cafe.order.entity.Order;
 import com.codestates.CordJg.cafe.repository.CoffeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+
+
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 public class CoffeeService {
@@ -54,12 +53,6 @@ public class CoffeeService {
         return findVerifiedCoffee(coffeeId);
     }
 
-    public List<Coffee> findOrderedCoffees(Order order) {
-        return order.getOrderCoffees()
-                .stream()
-                .map(coffeeRef -> findCoffee(coffeeRef.getCoffeeId()))
-                .collect(Collectors.toList());
-    }
 
     public Page<Coffee> findCoffees(int page, int size) {
 
